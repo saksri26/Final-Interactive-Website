@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ออกเดินทางใน Imagine City เลือกเส้นทางที่ใช่ แล้วค้นพบสายงานสร้างสรรค์ของคุณ"
+    />
+    <title>Imagine City — คืนสุดท้ายก่อนสีจะหายไป</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <div class="color-bloom" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="wordmark" href="#" aria-label="Imagine City หน้าแรก" data-home>
+          <span class="wordmark-star" aria-hidden="true">✦</span>
+          IMAGINE CITY<span class="wordmark-dot">!</span>
+        </a>
+        <div class="topbar-note">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>THE NIGHT THE COLORS FADED</span>
+        </div>
+        <div class="issue-tag">ฉบับที่ 01 · VOL. 1</div>
+      </header>
+
+      <main id="main-content" tabindex="-1">
+        <section class="page is-active" data-page="home" aria-labelledby="home-title">
+          <div class="hero-layout">
+            <div class="hero-copy">
+              <p class="eyebrow"><span>★</span> เรื่องราวแบบอินเทอร์แอ็กทีฟ · SCHOOL OF DIGITAL MEDIA</p>
+              <h1 id="home-title">Imagine<br />City</h1>
+              <p class="hero-description">
+                คืนนี้สีสันของ Imagine City กำลังจะหายไป
+                ออกเดินทางผ่าน 11 ฉาก แล้วค้นพบว่าคุณจะช่วยเมืองนี้ด้วยจินตนาการแบบไหน
+              </p>
+              <div class="hero-actions">
+                <button class="button button-primary" type="button" data-start>
+                  ออกเดินทาง <span aria-hidden="true">➜</span>
+                </button>
+                <span class="play-note">11 ฉาก · ไม่มีคำตอบถูกหรือผิด</span>
+              </div>
+              <div class="hero-stamp" aria-hidden="true">
+                <span>FUN</span>
+                <span>INSIDE!</span>
+              </div>
+            </div>
+
+            <div class="hero-art">
+              <span class="sparkle sparkle-one" aria-hidden="true">✦</span>
+              <div
+                class="image-placeholder cover-placeholder"
+                role="img"
+                aria-label="พื้นที่วางภาพปก ขนาดแนะนำ 560 คูณ 440 พิกเซล"
+              >
+                <span class="placeholder-icon" aria-hidden="true">✎</span>
+                <strong>วางภาพปกของคุณตรงนี้</strong>
+                <span>560 × 440 px · ภาพการ์ตูนเปิดเรื่อง</span>
+              </div>
+              <span class="sparkle sparkle-two" aria-hidden="true">✦</span>
+              <span class="art-caption">A LITTLE BIT OF KNOW-HOW!</span>
+            </div>
+          </div>
+          <div class="home-footer">
+            <span>คำตอบทุกข้อค่อย ๆ เติมสีให้เมืองนี้</span>
+            <span aria-hidden="true">✳</span>
+            <span>ตอบได้เพียง 1 ตัวเลือกต่อคำถาม</span>
+          </div>
+        </section>
+
+        <section
+          class="page quiz-page"
+          data-page="quiz"
+          aria-labelledby="question-title"
+          hidden
+        >
+          <div class="quiz-topline">
+            <button class="text-button" type="button" data-home>
+              <span aria-hidden="true">←</span> กลับหน้าแรก
+            </button>
+            <p class="eyebrow">ฉาก <span data-current>01</span> / <span data-total>11</span></p>
+            <div class="score-pill">คะแนน <strong data-score>0 / 11</strong></div>
+          </div>
+
+          <div class="progress-track" role="progressbar" aria-label="ความคืบหน้า" aria-valuemin="0" aria-valuemax="11" aria-valuenow="1">
+            <span class="progress-fill"></span>
+          </div>
+
+          <div class="question-layout">
+            <div class="question-art">
+              <span class="question-number" data-question-number>Q.01</span>
+              <div
+                class="image-placeholder question-placeholder"
+                data-question-image
+                role="img"
+                aria-label="พื้นที่วางภาพประกอบฉาก ขนาดแนะนำ 480 คูณ 360 พิกเซล"
+              ></div>
+              <span class="art-caption">LOOK CLOSELY, THINK QUICKLY!</span>
+            </div>
+
+            <div class="question-content">
+              <p class="eyebrow"><span>✦</span> <span data-scene-label>ฉากชวนคิด</span></p>
+              <h1 id="question-title" data-question></h1>
+              <div class="answer-list" data-answers></div>
+              <div class="answer-feedback" data-feedback aria-live="polite"></div>
+              <button class="button button-primary next-button" type="button" data-next hidden>
+                ข้อต่อไป <span aria-hidden="true">➜</span>
+              </button>
+            </div>
+          </div>
+          <div class="quiz-footer">
+            <span>เลือกเส้นทางที่ใช่สำหรับเธอ</span>
+            <span>ไม่มีคำตอบถูกหรือผิด</span>
+          </div>
+        </section>
+
+        <section
+          class="page result-page"
+          data-page="result"
+          aria-labelledby="result-title"
+          hidden
+        >
+          <div class="result-layout">
+            <div class="result-art">
+              <span class="result-sparkle" aria-hidden="true">★</span>
+              <div
+                class="image-placeholder result-placeholder"
+                role="img"
+                aria-label="พื้นที่วางภาพสรุปผล ขนาดแนะนำ 480 คูณ 360 พิกเซล"
+              >
+                <span class="placeholder-icon" aria-hidden="true">✎</span>
+                <strong>วางภาพสรุปผลตรงนี้</strong>
+                <span>480 × 360 px · มาสคอตฉลองคะแนน</span>
+              </div>
+              <span class="result-ribbon">THAT'S THE SPIRIT!</span>
+            </div>
+            <div class="result-copy">
+              <p class="eyebrow"><span>★</span> คืนสีสันให้ Imagine City สำเร็จ!</p>
+              <h1 id="result-title">ทำได้เยี่ยม!</h1>
+              <p class="result-message" data-result-message></p>
+              <div class="score-card">
+                <span>คะแนนเส้นทางของคุณ</span>
+                <strong><span data-final-score>0</span><small> / 11</small></strong>
+              </div>
+              <p class="result-detail"><strong data-result-program></strong></p>
+              <p class="result-detail">ย่านที่คุณแวะ: <span data-result-district></span></p>
+              <p class="result-detail">อาชีพที่คุณเลือก: <span data-result-career></span></p>
+              <button class="button button-primary" type="button" data-restart>
+                เล่นอีกครั้ง <span aria-hidden="true">↻</span>
+              </button>
+            </div>
+          </div>
+          <div class="result-summary" data-result-summary aria-label="สรุปคำตอบ"></div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>MADE FOR CURIOUS MINDS</span>
+        <span>✳</span>
+        <span>IMAGINE CITY · SCHOOL OF DIGITAL MEDIA</span>
+      </footer>
+    </div>
+  </body>
+</html>
