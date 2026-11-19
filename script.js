@@ -380,39 +380,38 @@ function renderQuestion() {
 }
 
 function selectAnswer(answer, event) {
-  if (hasAnswered) return;
-
+  const item = sequence[currentQuestion];
+  const previousProgram = selectedAnswers[currentQuestion];
   hasAnswered = true;
   selectedAnswers[currentQuestion] = answer.program;
   fillWithColor(event);
 
-  if (sequence[currentQuestion].isScored) {
-    scores[answer.program] += 1;
+  if (item.isScored) {
+    if (previousProgram !== answer.program) {
+      if (previousProgram) scores[previousProgram] -= 1;
+      scores[answer.program] += 1;
+    }
   } else {
-    selectedCareers.push({
-      programCode: sequence[currentQuestion].programCode,
-      career: programs[sequence[currentQuestion].programCode].careers.find(
+    selectedCareers[currentQuestion] = {
+      programCode: item.programCode,
+      career: programs[item.programCode].careers.find(
         ([, description]) => answer.text.includes(description),
       )[0],
-    });
+    };
   }
 
   answerList.querySelectorAll(".answer-option").forEach((option) => {
-    option.disabled = true;
-    if (option.contains(event.currentTarget.querySelector(".answer-key"))) {
-      option.classList.add("is-selected");
-    }
+    option.classList.toggle("is-selected", option === event.currentTarget);
   });
 
-  feedback.textContent = sequence[currentQuestion].isScored
-    ? "บันทึกคำตอบแล้ว ดวงไฟเริ่มเติมสีให้เมืองนี้!"
-    : "บันทึกผลงานที่เธออยากสร้างแล้ว";
+  feedback.textContent = item.isScored
+    ? "เลือกคำตอบแล้ว เปลี่ยนได้ก่อนเดินทางต่อ!"
+    : "เลือกผลงานแล้ว เปลี่ยนได้ก่อนเดินทางต่อ!";
   nextButton.innerHTML =
     currentQuestion === sequence.length - 1
       ? 'ดูผลการเดินทาง <span aria-hidden="true">➜</span>'
       : 'เดินทางต่อ <span aria-hidden="true">➜</span>';
   nextButton.hidden = false;
-  nextButton.focus({ preventScroll: true });
 }
 
 function showResults() {
@@ -452,7 +451,8 @@ function showResults() {
     .map((code) => programs[code].district)
     .join(" และ ");
   document.querySelector("[data-result-career]").textContent =
-    selectedCareers.map((item) => item.career).join(" · ") || "ยังไม่ได้เลือก";
+    selectedCareers.filter(Boolean).map((item) => item.career).join(" · ") ||
+    "ยังไม่ได้เลือก";
   document.querySelector(".result-placeholder strong").textContent =
     `ภาพประกอบผลลัพธ์ · ${programs[primaryCode].result}`;
   document.querySelector(".result-placeholder > span:last-child").textContent =
