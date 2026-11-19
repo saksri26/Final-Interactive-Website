@@ -240,7 +240,6 @@ const questionNumber = document.querySelector("[data-question-number]");
 const questionImage = document.querySelector("[data-question-image]");
 const progressTrack = document.querySelector(".progress-track");
 const progressFill = document.querySelector(".progress-fill");
-const scoreLabel = document.querySelector("[data-score]");
 const mainContent = document.querySelector("#main-content");
 const questionLayout = document.querySelector(".question-layout");
 const sceneLabel = document.querySelector("[data-scene-label]");
@@ -365,7 +364,6 @@ function renderQuestion() {
   answerList.replaceChildren();
   feedback.textContent = "";
   nextButton.hidden = true;
-  scoreLabel.textContent = `${Object.values(scores).reduce((sum, value) => sum + value, 0)} / 11`;
   progressFill.style.width = `${(progressStep / 11) * 100}%`;
   progressTrack.setAttribute("aria-valuemax", "11");
   progressTrack.setAttribute("aria-valuenow", progressStep);
@@ -390,7 +388,6 @@ function selectAnswer(answer, event) {
 
   if (sequence[currentQuestion].isScored) {
     scores[answer.program] += 1;
-    scoreLabel.textContent = `${Object.values(scores).reduce((sum, value) => sum + value, 0)} / 11`;
   } else {
     selectedCareers.push({
       programCode: sequence[currentQuestion].programCode,

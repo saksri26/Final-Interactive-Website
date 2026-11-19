@@ -298,30 +298,6 @@ p {
   font-size: 10px;
 }
 
-.hero-stamp {
-  position: absolute;
-  right: 12px;
-  bottom: -7px;
-  width: 87px;
-  height: 87px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  background: var(--paper);
-  box-shadow: 3px 3px 0 var(--shadow);
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1;
-  transform: rotate(12deg);
-}
-
-.hero-stamp span + span {
-  font-size: 11px;
-}
-
 .hero-art {
   position: relative;
   max-width: 470px;
@@ -457,19 +433,6 @@ p {
 
 .text-button span {
   margin-right: 4px;
-}
-
-.score-pill {
-  padding: 7px 12px;
-  border: 3px solid var(--line);
-  background: var(--paper);
-  box-shadow: 3px 3px 0 var(--shadow);
-  font-size: 11px;
-}
-
-.score-pill strong {
-  margin-left: 6px;
-  font-size: 14px;
 }
 
 .progress-track {
@@ -846,14 +809,6 @@ p {
 
   .hero-description {
     margin: 20px 0;
-  }
-
-  .hero-stamp {
-    right: 12px;
-    bottom: -37px;
-    width: 72px;
-    height: 72px;
-    font-size: 13px;
   }
 
   .hero-art {
