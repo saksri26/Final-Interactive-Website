@@ -135,8 +135,6 @@ button {
 .issue-tag,
 .eyebrow,
 .art-caption,
-.home-footer,
-.quiz-footer,
 .site-footer {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -393,21 +391,6 @@ p {
   text-align: center;
 }
 
-.home-footer {
-  min-height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 17px;
-  border-top: 1px solid var(--ink);
-  color: var(--muted);
-  text-align: center;
-}
-
-.home-footer span:nth-child(2) {
-  color: var(--ink);
-}
-
 .quiz-page {
   padding: 30px 20px 14px;
 }
@@ -624,15 +607,6 @@ p {
   margin-top: 2px;
 }
 
-.quiz-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  padding: 16px 3px 2px;
-  border-top: 1px solid var(--ink);
-  color: var(--muted);
-}
-
 .result-page {
   padding: 40px 30px 25px;
 }
@@ -778,13 +752,8 @@ p {
   min-height: 46px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: center;
   border-top: 2px solid var(--ink);
-}
-
-.site-footer span:nth-child(2) {
-  font-size: 13px;
 }
 
 @keyframes page-in {
@@ -862,11 +831,6 @@ p {
     min-height: 250px;
   }
 
-  .home-footer {
-    font-size: 8px;
-    gap: 8px;
-  }
-
   .quiz-page {
     padding: 22px 4px 14px;
   }
@@ -902,10 +866,6 @@ p {
 
   .quiz-topline .eyebrow {
     font-size: 9px;
-  }
-
-  .quiz-footer {
-    font-size: 8px;
   }
 
   .result-page {
@@ -968,9 +928,6 @@ p {
     font-size: 9px;
   }
 
-  .home-footer span:first-child {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

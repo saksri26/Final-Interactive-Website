@@ -284,6 +284,7 @@ const questionTitle = document.querySelector("[data-question]");
 const answerList = document.querySelector("[data-answers]");
 const feedback = document.querySelector("[data-feedback]");
 const nextButton = document.querySelector("[data-next]");
+const backButton = document.querySelector("[data-back]");
 const currentLabel = document.querySelector("[data-current]");
 const totalLabel = document.querySelector("[data-total]");
 const questionNumber = document.querySelector("[data-question-number]");
@@ -413,6 +414,10 @@ function renderQuestion() {
   questionNumber.textContent = `Q.${stepLabel}`;
   questionTitle.textContent = item.title;
   sceneLabel.textContent = item.chapter;
+  backButton.innerHTML =
+    currentQuestion === 0
+      ? '<span aria-hidden="true">←</span> กลับหน้าแรก'
+      : '<span aria-hidden="true">←</span> ข้อก่อนหน้า';
   renderQuestionImage(step, item.image);
   answerList.replaceChildren();
   feedback.textContent = "";
@@ -426,10 +431,30 @@ function renderQuestion() {
     const option = document.createElement("button");
     option.className = "answer-option";
     option.type = "button";
+    option.dataset.program = answer.program;
     option.innerHTML = `<span class="answer-key">${String.fromCharCode(65 + index)}</span><span>${answer.text}</span>`;
     option.addEventListener("click", (event) => selectAnswer(answer, event));
     answerList.append(option);
   });
+
+  const selectedProgram = selectedAnswers[currentQuestion];
+  if (selectedProgram) {
+    answerList.querySelectorAll(".answer-option").forEach((option) => {
+      option.classList.toggle(
+        "is-selected",
+        option.dataset.program === selectedProgram,
+      );
+    });
+    hasAnswered = true;
+    questionImage.classList.add("is-revealed");
+    app.classList.add("is-colorful");
+    feedback.textContent = "เลือกคำตอบแล้ว เปลี่ยนได้ก่อนเดินทางต่อ!";
+    nextButton.innerHTML =
+      currentQuestion === sequence.length - 1
+        ? 'ดูผลการเดินทาง <span aria-hidden="true">➜</span>'
+        : 'เดินทางต่อ <span aria-hidden="true">➜</span>';
+    nextButton.hidden = false;
+  }
 }
 
 function selectAnswer(answer, event) {
@@ -542,12 +567,19 @@ document.querySelector("[data-restart]").addEventListener("click", () => {
   showPage("quiz");
 });
 
-document.querySelectorAll("[data-home]").forEach((button) => {
-  button.addEventListener("click", (event) => {
-    event.preventDefault();
+backButton.addEventListener("click", () => {
+  if (currentQuestion === 0) {
     resetColor();
     showPage("home");
-  });
+    return;
+  }
+
+  questionLayout.classList.remove("is-entering");
+  questionLayout.classList.add("is-leaving");
+  window.setTimeout(() => {
+    currentQuestion -= 1;
+    renderQuestion();
+  }, 200);
 });
 
 nextButton.addEventListener("click", advanceJourney);
