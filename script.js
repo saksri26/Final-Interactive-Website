@@ -56,13 +56,12 @@ const programs = {
   },
 };
 
-const question = (id, chapter, title, image, answers, isScored = true) => ({
+const question = (id, chapter, title, image, answers) => ({
   id,
   chapter,
   title,
   image,
   answers: answers.map(([program, text]) => ({ program, text })),
-  isScored,
 });
 
 const openingQuestions = [
@@ -215,6 +214,57 @@ const closingQuestions = [
   ),
 ];
 
+const sceneImageFiles = {
+  1: {
+    initial: "ไฟล์ - 2026-11-20T13_00_09(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_00_09.jpg",
+  },
+  2: {
+    initial: "ไฟล์ - 2026-11-20T13_00_22(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_00_22.jpg",
+  },
+  3: {
+    initial: "ไฟล์ - 2026-11-20T13_00_34(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_00_34.jpg",
+  },
+  4: {
+    initial: "ไฟล์ - 2026-11-20T13_00_51.jpg",
+    colored: "ไฟล์ - 2026-11-20T13_00_51(1).jpg",
+  },
+  5: {
+    initial: "ไฟล์ - 2026-11-20T13_01_01(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_01_01.jpg",
+  },
+  6: {
+    initial: "ไฟล์ - 2026-11-20T13_01_11(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_01_11.jpg",
+  },
+  7: {
+    folder: "ฉาก9",
+    initial: "ไฟล์ - 2026-11-20T13_07_25(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_07_25.jpg",
+  },
+  8: {
+    folder: "ฉาก10",
+    initial: "ไฟล์ - 2026-11-20T13_07_29.jpg",
+    colored: "ไฟล์ - 2026-11-20T13_07_29(1).jpg",
+  },
+  9: {
+    folder: "ฉาก10",
+    initial: "ไฟล์ - 2026-11-20T13_07_44(1).jpg",
+    colored: "ไฟล์ - 2026-11-20T13_07_44.jpg",
+  },
+  10: {
+    folder: "ฉาก8",
+    initial: "ไฟล์ - 2026-11-20T13_06_11.jpg",
+    colored: "ไฟล์ - 2026-11-20T13_06_11(1).jpg",
+  },
+  11: {
+    initial: "ไฟล์ - 2026-11-20T13_03_42.jpg",
+    colored: "ไฟล์ - 2026-11-20T13_03_42(1).jpg",
+  },
+};
+
 const mixedResults = {
   "DGA+DGD": "นักออกแบบที่เล่าเรื่องด้วยภาพวาด",
   "AFX+DGD": "นักออกแบบที่ทำให้ภาพขยับ",
@@ -250,7 +300,6 @@ let sequence = [];
 let currentQuestion = 0;
 let hasAnswered = false;
 let selectedAnswers = [];
-let selectedCareers = [];
 let transitionTimer;
 
 function shuffled(items) {
@@ -270,29 +319,11 @@ function leadingPrograms() {
   return leaders.slice(0, 2).map((item) => item.code);
 }
 
-function makeCareerQuestion(code) {
-  const program = programs[code];
-  const scene = question(
-    `3 · ${code}`,
-    "บทที่ 3 · ย่านของเธอ",
-    `${program.district} · เธออยากฝากลายเซ็นไว้กับผลงานแบบไหน`,
-    `ภาพ${program.district}และผลงานสร้างสรรค์`,
-    program.careers.map(([career, description]) => [
-      code,
-      `${description} (${career})`,
-    ]),
-    false,
-  );
-  scene.programCode = code;
-  return scene;
-}
-
 function beginJourney() {
   scores = Object.fromEntries(programCodes.map((code) => [code, 0]));
-  sequence = [...openingQuestions];
+  sequence = [...openingQuestions, gateQuestion, ...closingQuestions];
   currentQuestion = 0;
   selectedAnswers = [];
-  selectedCareers = [];
   renderQuestion();
   showPage("quiz");
 }
@@ -334,14 +365,44 @@ function fillWithColor(event) {
   app.classList.add("is-colorful");
 }
 
+function renderQuestionImage(step, description) {
+  const sceneImages = sceneImageFiles[step];
+  questionImage.classList.remove("has-scene-images", "is-revealed");
+  questionImage.replaceChildren();
+  questionImage.setAttribute(
+    "aria-label",
+    `ภาพประกอบฉาก ${step}: ${description}`,
+  );
+
+  if (!sceneImages) {
+    questionImage.innerHTML = `
+      <span class="placeholder-icon" aria-hidden="true">✎</span>
+      <strong>ภาพประกอบฉาก ${step}</strong>
+      <span>480 × 360 px · ${description}</span>
+    `;
+    return;
+  }
+
+  const imagePath = `asset/${sceneImages.folder || `ฉาก${step}`}/`;
+  const initialImage = document.createElement("img");
+  initialImage.className = "question-scene-image question-scene-image-muted";
+  initialImage.src = `${imagePath}${sceneImages.initial}`;
+  initialImage.alt = "";
+
+  const coloredImage = document.createElement("img");
+  coloredImage.className = "question-scene-image question-scene-image-colored";
+  coloredImage.src = `${imagePath}${sceneImages.colored}`;
+  coloredImage.alt = "";
+
+  questionImage.classList.add("has-scene-images");
+  questionImage.append(initialImage, coloredImage);
+}
+
 function renderQuestion() {
   const item = sequence[currentQuestion];
   const step = currentQuestion + 1;
   const stepLabel = String(step).padStart(2, "0");
-  const completedScoredQuestions = sequence
-    .slice(0, currentQuestion)
-    .filter((entry) => entry.isScored).length;
-  const progressStep = completedScoredQuestions + (item.isScored ? 1 : 0);
+  const progressStep = step;
 
   questionLayout.classList.remove("is-leaving", "is-entering");
   void questionLayout.offsetWidth;
@@ -352,15 +413,7 @@ function renderQuestion() {
   questionNumber.textContent = `Q.${stepLabel}`;
   questionTitle.textContent = item.title;
   sceneLabel.textContent = item.chapter;
-  questionImage.innerHTML = `
-    <span class="placeholder-icon" aria-hidden="true">✎</span>
-    <strong>ภาพประกอบฉาก ${item.id}</strong>
-    <span>480 × 360 px · ${item.image}</span>
-  `;
-  questionImage.setAttribute(
-    "aria-label",
-    `พื้นที่วางภาพประกอบฉาก ${item.id} ขนาดแนะนำ 480 คูณ 360 พิกเซล: ${item.image}`,
-  );
+  renderQuestionImage(step, item.image);
   answerList.replaceChildren();
   feedback.textContent = "";
   nextButton.hidden = true;
@@ -380,33 +433,22 @@ function renderQuestion() {
 }
 
 function selectAnswer(answer, event) {
-  const item = sequence[currentQuestion];
   const previousProgram = selectedAnswers[currentQuestion];
   hasAnswered = true;
   selectedAnswers[currentQuestion] = answer.program;
   fillWithColor(event);
+  questionImage.classList.add("is-revealed");
 
-  if (item.isScored) {
-    if (previousProgram !== answer.program) {
-      if (previousProgram) scores[previousProgram] -= 1;
-      scores[answer.program] += 1;
-    }
-  } else {
-    selectedCareers[currentQuestion] = {
-      programCode: item.programCode,
-      career: programs[item.programCode].careers.find(
-        ([, description]) => answer.text.includes(description),
-      )[0],
-    };
+  if (previousProgram !== answer.program) {
+    if (previousProgram) scores[previousProgram] -= 1;
+    scores[answer.program] += 1;
   }
 
   answerList.querySelectorAll(".answer-option").forEach((option) => {
     option.classList.toggle("is-selected", option === event.currentTarget);
   });
 
-  feedback.textContent = item.isScored
-    ? "เลือกคำตอบแล้ว เปลี่ยนได้ก่อนเดินทางต่อ!"
-    : "เลือกผลงานแล้ว เปลี่ยนได้ก่อนเดินทางต่อ!";
+  feedback.textContent = "เลือกคำตอบแล้ว เปลี่ยนได้ก่อนเดินทางต่อ!";
   nextButton.innerHTML =
     currentQuestion === sequence.length - 1
       ? 'ดูผลการเดินทาง <span aria-hidden="true">➜</span>'
@@ -450,9 +492,14 @@ function showResults() {
   document.querySelector("[data-result-district]").textContent = leaders
     .map((code) => programs[code].district)
     .join(" และ ");
-  document.querySelector("[data-result-career]").textContent =
-    selectedCareers.filter(Boolean).map((item) => item.career).join(" · ") ||
-    "ยังไม่ได้เลือก";
+  document.querySelector("[data-result-career]").textContent = leaders
+    .map(
+      (code) =>
+        `${programs[code].name}: ${programs[code].careers
+          .map(([career]) => career)
+          .join(", ")}`,
+    )
+    .join(" · ");
   document.querySelector(".result-placeholder strong").textContent =
     `ภาพประกอบผลลัพธ์ · ${programs[primaryCode].result}`;
   document.querySelector(".result-placeholder > span:last-child").textContent =
@@ -476,10 +523,6 @@ function showResults() {
 
 function advanceJourney() {
   if (!hasAnswered) return;
-  if (currentQuestion === openingQuestions.length - 1) {
-    const districts = leadingPrograms();
-    sequence.push(...districts.map(makeCareerQuestion), gateQuestion, ...closingQuestions);
-  }
   if (currentQuestion === sequence.length - 1) {
     showResults();
     return;
