@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ออกเดินทางใน Imagine City เลือกเส้นทางที่ใช่ แล้วค้นพบสายงานสร้างสรรค์ของคุณ"
+    />
+    <title>Imagine City — คืนสุดท้ายก่อนสีจะหายไป</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <div class="color-bloom" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="wordmark" href="#" aria-label="Imagine City หน้าแรก" data-home>
+          <span class="wordmark-star" aria-hidden="true">✦</span>
+          IMAGINE CITY
+        </a>
+      </header>
+
+      <main id="main-content" tabindex="-1">
+        <section class="page is-active" data-page="home" aria-labelledby="home-title">
+          <div class="hero-layout">
+            <div class="hero-copy">
+              <p class="eyebrow"><span>★</span> เรื่องราวแบบอินเทอร์แอ็กทีฟ · SCHOOL OF DIGITAL MEDIA</p>
+              <h1 id="home-title">คืนสุดท้ายก่อนสีจะหายไป</h1>
+              <p class="hero-description">
+                คืนนี้สีสันของ Imagine City กำลังจะหายไป
+                ออกเดินทางผ่าน 11 ฉาก แล้วค้นพบว่าคุณจะช่วยเมืองนี้ด้วยจินตนาการแบบไหน
+              </p>
+              <div class="hero-actions">
+                <button class="button button-primary" type="button" data-start>
+                  ออกเดินทาง <span aria-hidden="true">➜</span>
+                </button>
+                <span class="play-note">11 ฉาก · ค้นหาสีสันในตัวคุณ</span>
+              </div>
+            </div>
+
+            <div class="hero-art">
+              <span class="sparkle sparkle-one" aria-hidden="true">✦</span>
+              <img
+                class="cover-image"
+                src="assets/ending-before-star-bw.png"
+                alt="ภาพไร้สีของเมืองก่อนยกดาว"
+              />
+              <span class="sparkle sparkle-two" aria-hidden="true">✦</span>
+              <span class="art-caption">A LITTLE BIT OF KNOW-HOW!</span>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="page quiz-page"
+          data-page="quiz"
+          aria-labelledby="question-title"
+          hidden
+        >
+          <div class="quiz-topline">
+            <button class="text-button" type="button" data-quiz-back>
+              <i data-lucide="home" aria-hidden="true"></i> กลับหน้าหลัก
+            </button>
+            <p class="eyebrow">ฉาก <span data-current>01</span> / <span data-total>11</span></p>
+          </div>
+
+          <div class="progress-track" role="progressbar" aria-label="ความคืบหน้า" aria-valuemin="0" aria-valuemax="11" aria-valuenow="1">
+            <span class="progress-fill"></span>
+          </div>
+
+          <div class="question-layout">
+            <div class="question-art">
+              <span class="question-number" data-question-number>Q.01</span>
+              <div class="question-image-frame" data-question-image role="img">
+                <img class="question-image question-image-bw" data-bw-image alt="" />
+                <img class="question-image question-image-color" data-color-image alt="" />
+              </div>
+              <span class="art-caption">LOOK CLOSELY, THINK QUICKLY!</span>
+            </div>
+
+            <div class="question-content">
+              <p class="eyebrow"><span>✦</span> <span data-scene-label>ฉากชวนคิด</span></p>
+              <h1 id="question-title" data-question></h1>
+              <div class="answer-list" data-answers></div>
+              <button class="button button-primary next-button" type="button" data-next hidden>
+                ข้อต่อไป <span aria-hidden="true">➜</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="page result-page"
+          data-page="result"
+          aria-labelledby="result-title"
+          hidden
+        >
+          <div class="result-layout">
+            <div class="result-art">
+              <span class="result-sparkle" aria-hidden="true">★</span>
+              <img
+                class="result-image"
+                src="assets/ending-color.png"
+                alt="เมืองกลับมามีสีสันอีกครั้ง"
+              />
+              <span class="result-ribbon">THAT'S THE SPIRIT!</span>
+            </div>
+            <div class="result-copy">
+              <p class="eyebrow"><span>★</span> คืนสีสันให้ Imagine City สำเร็จ!</p>
+              <h1 id="result-title">ทำได้เยี่ยม!</h1>
+              <p class="result-message" data-result-message></p>
+              <p class="result-detail"><strong data-result-program></strong></p>
+              <p class="result-detail">ย่านที่คุณแวะ: <span data-result-district></span></p>
+              <p class="result-detail">อาชีพที่เหมาะกับคุณ: <span data-result-career></span></p>
+              <section class="result-personality" aria-label="บุคลิกภาพตามเส้นทางของคุณ">
+                <blockquote class="result-quote" data-result-quote></blockquote>
+                <div class="result-traits">
+                  <h2>3 ลักษณะนิสัยของคนสาขานี้</h2>
+                  <ul data-result-traits></ul>
+                </div>
+                <div class="result-identity">
+                  <h2>ตัวตนของคุณ</h2>
+                  <p data-result-identity></p>
+                </div>
+              </section>
+              <button class="button button-primary" type="button" data-restart>
+                เล่นอีกครั้ง <span aria-hidden="true">↻</span>
+              </button>
+            </div>
+          </div>
+          <div class="result-summary" data-result-summary aria-label="สรุปคำตอบ"></div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <span>✳</span>
+      </footer>
+    </div>
+  </body>
+</html>
